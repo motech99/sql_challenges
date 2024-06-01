@@ -1,51 +1,45 @@
 
-DROP TABLE ENROLLMENTS;
-DROP TABLE SUBJECTS;
-DROP TABLE TEACHERS;
-DROP TABLE STUDENTS;
+INSERT INTO STUDENTS (f_name, l_name, dob, email) VALUES
+('Mohammed', 'Hani', '1999-12-24', 'mo@email.com'),
+('Bruce', 'Wayne', '2003-09-03', 'batman@email.com'),
+('John', 'Cena', '1975-05-15', 'john@email.com'),
+('Peter', 'Parker', '1990-11-12', 'john@email.com'),
+('Nolan', 'Grayson', '1970-06-05', 'ormniman@email.com');
+
+INSERT INTO TEACHERS (f_name, l_name) VALUES
+('John', 'Smith'),
+('Beck', 'Sally'),
+('Michael', 'Hill');
+
+INSERT INTO SUBJECTS (subject_name, teacher_id, area) VALUES
+('Maths', 1, 'Maths R54'),
+('Science', 2, 'Science R3'),
+('IT', 1, 'Computer Science R51'),
+('Physical Education', 3, 'Stadium');
+
+INSERT INTO ENROLLMENTS (student_id, subject_id, enrollment_date) VALUES
+(1, 1, DEFAULT),
+(1, 2, '2024-01-01'),
+(4, 3, '2017-06-02'),
+(4, 4, DEFAULT),
+(2, 3, DEFAULT),
+(2, 4, DEFAULT),
+(3, 4, DEFAULT),
+(3, 1, DEFAULT),
+(5, 4, DEFAULT),
+(5, 1, DEFAULT);
 
 
-Create Table STUDENTS (
-    student_id serial primary key,
-    f_name text not null,
-    l_name text not null,
-    dob date
-);
+UPDATE STUDENTS
+SET dob = '1995-06-04'
+WHERE student_id = 2;
 
-Create Table TEACHERS(
-    teacher_id serial primary key,
-    name text NOT NULL
-);
+UPDATE SUBJECTS
+SET subject_name = 'Programming'
+WHERE subject_id = 3;
 
-Create Table SUBJECTS(
-    subject_id serial primary key,
-    subject_name text NOT NULL,
-    teacher_id integer,
+DELETE FROM ENROLLMENTS
+WHERE enrollment_id = 1 OR enrollment_id = 2;
 
-    foreign key (teacher_id) references TEACHERS(teacher_id) ON DELETE SET NULL
-);
-
-Create Table ENROLLMENTS(
-    enrollment_id serial primary key,
-    student_id integer NOT NULL,
-    subject_id integer  NOT NULL,
-    enrollment_date date DEFAULT CURRENT_DATE, 
-
-    foreign key (student_id)  references STUDENTS (student_id) ON DELETE CASCADE,
-    foreign key (subject_id) references SUBJECTS (subject_id) ON DELETE CASCADE
-);
-
-ALTER TABLE STUDENTS
-ADD COLUMN email text NOT NULL;
-
-ALTER TABLE TEACHERS
-RENAME COLUMN name TO f_name;
-
-ALTER TABLE TEACHERS
-ADD COLUMN l_name text NOT NULL;
-
-ALTER TABLE SUBJECTS
-ADD COLUMN area text DEFAULT 'Databases';
-
-
-DROP TABLE  SUBJECTS;
+DELETE FROM STUDENTS
+WHERE student_id = 3;
